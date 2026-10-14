@@ -2,19 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\TestCase;
+use Tests\TestCase;
 
-class HealthTest extends TestCase
+final class HealthTest extends TestCase
 {
-    public function test_health_endpoint_returns_ok(): void
+    public function test_health_is_public(): void
     {
-        $this->get('/health')
-            ->assertOk()
-            ->assertExactJson(['status' => 'ok']);
-    }
-
-    public function createApplication()
-    {
-        return require __DIR__.'/../../bootstrap/app.php';
+        $this->getJson('/health')->assertOk()->assertExactJson(['status' => 'ok']);
+        $this->getJson('/api/v1/health')->assertOk()->assertExactJson(['status' => 'ok']);
     }
 }

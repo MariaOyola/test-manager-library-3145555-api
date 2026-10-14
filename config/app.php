@@ -11,11 +11,4 @@ return [
     'faker_locale' => 'es_CO',
     'key' => env('APP_KEY'),
     'cipher' => 'AES-256-CBC',
-    'providers' => [
-        Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\RoutingServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
-    ],
 ];

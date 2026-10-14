@@ -1,0 +1,34 @@
+# Credenciales exclusivas para una base desechable de pruebas.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: library_test
+      POSTGRES_USER: library_test
+      POSTGRES_PASSWORD: isolated-test-password
+      TZ: UTC
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U library_test -d library_test"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  tests:
+    build:
+      context: .
+      target: development
+    environment:
+      APP_ENV: testing
+      APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      APP_DEBUG: "false"
+      DB_HOST: db
+      DB_DATABASE: library_test
+      DB_USERNAME: library_test
+      DB_PASSWORD: isolated-test-password
+      JWT_SECRET: isolated-test-jwt-key-at-least-32-characters
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: isolated-admin-password
+      CORS_ORIGIN: http://localhost:5173
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "php artisan migrate --force && php artisan library:provision-admin && vendor/bin/phpunit"]

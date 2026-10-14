@@ -14,9 +14,9 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'library,public',
+            'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
     ],
-    'migrations' => 'migrations',
+    'migrations' => ['table' => 'public.migrations', 'update_date_on_publish' => true],
 ];
